@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Sydney Zhang">
+        <title>CSE 134 HW2 Personal Portfolio site</title>
+        <script>
+            window.addEventListener('load', () => {
+                const canvas = document.getElementById('canvas');
+                const context = canvas.getContext('2d');
+                context.strokeStyle = 'purple';
+                context.lineWidth = 5;
+                context.strokeRect(30, 100, 200,40);
+            });
+        </script>
+    </head>
+    <body>
+        <template>
+            <h2></h2>
+            <h3></h3>
+            <p></p>
+            <h3></h3>
+            <p></p>
+        </template>
+        
+        <picture>
+            <source srcset="assets/Sydney_Zhang200px.jpeg" media="(max-width: 300px)">
+            <img src="assets/Sydney_Zhang.jpeg" alt="">
+        </picture>
+        <audio src="assets/sample-9s.mp3"></audio>
+        <video src="assets/sample-5s.mp4" height="300" width="400">HTML video element is not supported</video>
+        <canvas id="canvas" width="400" height="300"></canvas>
+    </body>
+</html>
+
+<!-- 
+
+template*
+
+picture
+
+audio
+video
+canvas*
+source
+ -->
