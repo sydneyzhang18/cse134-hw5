@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="author" content="Sydney Zhang">
+        <title>CSE 134 HW2 Personal Portfolio site</title>
+    </head>
+    <body>
+        <header>
+            <nav>
+                <ol>
+                    <li><a href="home.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="projects.html">Projects</a></li>
+                    <li><a href="resume.html">Resume</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ol>
+            </nav>
+        </header>
+        <main>
+            <section>
+                <h1>Sydney Zhang</h1>
+                <h2>Software Engineer</h2>
+                <p> 
+
+                    <i></i>
+                    <b></b>
+                    <span></span>
+                </p>
+            </section>
+            
+            <!-- <img src="assets/Sydney_Zhang.jpeg" alt="Sydney Zhang's headshot"> -->
+            <picture>
+                <source srcset="assets/Sydney_Zhang200px.jpeg" media="(max-width: 300px)" height="200" width="200">
+                <img src="assets/Sydney_Zhang.jpeg" alt="Headshot of Sydney Zhang" height="400" width="400">
+            </picture>
+            <section>
+                <h3>Experiences</h3>
+                <ul>
+                    <li>Apple</li>
+                    <li>Triton Software Engineering</li>
+                    <li>Lawrence Livermore National Laboratory</li>
+                    <li>UC San Diego Programming Languages Lab</li>
+                    <li>The Design Lab at UC San Diego</li>
+                    <li>Triton Software Engineering</li>
+                </ul>
+            </section>
+            
+
+        </main>
+        <footer>
+            <button></button>
+        </footer>
+
+        <hello-world></hello-world>
+
+        <script>
+            // Define a custom element class
+            class HelloWorld extends HTMLElement {
+            constructor() {
+                super();
+                console.log("Hello world!"); // Log message to the console
+            }
+            }
+
+            // Register the element (name must include a hyphen)
+            customElements.define('hello-world', HelloWorld);
+        </script>
+
+    </body>
+    
+</html>
