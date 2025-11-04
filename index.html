@@ -8,7 +8,46 @@
     <link rel="stylesheet" href="styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style></style>
+    <style>
+      main section {
+        width: 100%;
+      }
+      #intro {
+        padding-block: 4rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        section {
+          margin-bottom: 4rem;
+        }
+      }
+      #experiences-list {
+        list-style: none;
+        width: 100%;
+        li {
+          margin-bottom: 1rem;
+          h4 {
+            margin-block-start: 0.25rem;
+            margin-block-end: 0.25rem;
+          }
+          p {
+            margin-top: 0;
+            margin-bottom: 0.25rem;
+          }
+        }
+      }
+      @media screen and (min-width: 600px) {
+        #intro {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 4rem;
+          h1,
+          h2 {
+            text-align: start;
+          }
+        }
+      }
+    </style>
   </head>
   <body>
     <header>
@@ -26,38 +65,41 @@
       <script>
         // Placeholder
       </script>
-      <section>
-        <h1>Sydney Zhang</h1>
-        <h2>Software Engineer</h2>
-        <p>
-          I'm a computer science undergraduate at <span>UC San Diego</span> with
-          experience in <span>full-stack development</span> and
-          <i
-            >passionate about finding technological solutions to issues in my
-            community</i
-          >.
-        </p>
+      <section id="intro">
+        <section>
+          <h1>Sydney Zhang</h1>
+          <h2>Software Engineer</h2>
+          <p>
+            I'm a computer science undergraduate at
+            <span>UC San Diego</span> with experience in
+            <span>full-stack development</span> and
+            <i
+              >passionate about finding technological solutions to issues in my
+              community</i
+            >.
+          </p>
+          <button>View Projects</button>
+        </section>
+
+        <picture>
+          <source
+            srcset="assets/Sydney_Zhang200px.jpeg"
+            media="(max-width: 300px)"
+            height="200"
+            width="200"
+          />
+          <img
+            src="assets/Sydney_Zhang.jpeg"
+            alt="Headshot of Sydney Zhang"
+            height="400"
+            width="400"
+          />
+        </picture>
       </section>
 
-      <picture>
-        <source
-          srcset="assets/Sydney_Zhang200px.jpeg"
-          media="(max-width: 300px)"
-          height="200"
-          width="200"
-        />
-        <img
-          src="assets/Sydney_Zhang.jpeg"
-          alt="Headshot of Sydney Zhang"
-          height="400"
-          width="400"
-        />
-      </picture>
-      <br />
-      <button>View Projects</button>
       <section>
         <h3>Experiences</h3>
-        <ul>
+        <ul id="experiences-list">
           <li>
             <h4>Apple</h4>
             <p>June 2025 - September 2025</p>

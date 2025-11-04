@@ -1,14 +1,40 @@
 :root {
-  --page-color: slategray;
-  --primary-color: lightblue;
+  color-scheme: light dark;
+  --color-background: light-dark(#dae3e0, #2a272b);
+  --color-primary: light-dark(#869e3c, #303d2b);
+  --color-secondary: light-dark(#303d2b, #869e3c);
+  --color-tertiary: light-dark(#425639, #a3bc59);
+  --color-primary-text: light-dark(#2a272b, #dae3e0);
+  --color-secondary-text: light-dark(#dae3e0, #2a272b);
+}
+
+@font-face {
+  font-family: "Tokyo";
+  src: url(assets/Tokyo.ttf);
+}
+@font-face {
+  font-family: "Roboto";
+  src: url(assets/Roboto-Black.ttf);
+}
+@font-face {
+  font-family: "Nexa";
+  src: url(assets/Nexa-ExtraLight.ttf);
+}
+@font-face {
+  font-family: "NexaHeavy";
+  src: url(assets/Nexa-Heavy.ttf);
 }
 body {
-  background-color: slategray;
+  background-color: var(--color-background);
   margin: auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: "Nexa", sans-serif;
 }
 
 header {
-  background-color: lightblue;
+  background-color: var(--color-primary);
   margin: 0;
   /* padding: 20% 10%; */
 }
@@ -16,12 +42,16 @@ header {
 nav ul {
   list-style-type: none;
   /* gap: 2rem; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   padding-inline: 0;
   padding-block: 3rem;
   margin: 0;
   li {
-    /* padding-block: 0.25rem; */
+    padding-block: 0.25rem;
+    color: var(--color-primary-text);
   }
 }
 nav a {
@@ -33,31 +63,54 @@ nav ul {
   margin: 0 5%;
 }
 
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 @media screen and (min-width: 600px) {
   main {
-    margin: 10%;
+    margin: 0 10%;
   }
   nav ul {
     margin: 0 10%;
     display: flex;
-    flex: row;
+    flex-direction: row;
     justify-content: space-between;
   }
 }
 
 h1 {
+  text-align: center;
+  font-family: "NexaHeavy", sans-serif;
+  font-size: 4em;
+  color: var(--color-primary-text);
 }
 
 footer {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: aquamarine;
+  background-color: var(--color-primary);
   gap: 2rem;
-  margin: 30px 0px 0px;
-  padding: 30px 0px;
+  margin: 40px 0px 0px;
+  padding: 60px 0px 30px;
 }
 
 a {
-  color: rgb(50, 82, 223);
+  color: var(--color-primary-text);
+}
+
+button,
+input[type="submit"] {
+  padding: 1rem;
+  background-color: var(--color-secondary);
+  color: var(--color-secondary-text);
+  border: none;
+  border-radius: 0.5rem;
+}
+
+button:hover {
+  background-color: var(--color-tertiary);
 }
