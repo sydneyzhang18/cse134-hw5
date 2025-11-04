@@ -1,0 +1,63 @@
+:root {
+  --page-color: slategray;
+  --primary-color: lightblue;
+}
+body {
+  background-color: slategray;
+  margin: auto;
+}
+
+header {
+  background-color: lightblue;
+  margin: 0;
+  /* padding: 20% 10%; */
+}
+
+nav ul {
+  list-style-type: none;
+  /* gap: 2rem; */
+
+  padding-inline: 0;
+  padding-block: 3rem;
+  margin: 0;
+  li {
+    /* padding-block: 0.25rem; */
+  }
+}
+nav a {
+  text-decoration: none;
+}
+
+main,
+nav ul {
+  margin: 0 5%;
+}
+
+@media screen and (min-width: 600px) {
+  main {
+    margin: 10%;
+  }
+  nav ul {
+    margin: 0 10%;
+    display: flex;
+    flex: row;
+    justify-content: space-between;
+  }
+}
+
+h1 {
+}
+
+footer {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  background-color: aquamarine;
+  gap: 2rem;
+  margin: 30px 0px 0px;
+  padding: 30px 0px;
+}
+
+a {
+  color: rgb(50, 82, 223);
+}
