@@ -6,15 +6,8 @@
   --color-tertiary: light-dark(#425639, #a3bc59);
   --color-primary-text: light-dark(#2a272b, #dae3e0);
   --color-secondary-text: light-dark(#dae3e0, #2a272b);
-}
-
-@font-face {
-  font-family: "Tokyo";
-  src: url(assets/Tokyo.ttf);
-}
-@font-face {
-  font-family: "Roboto";
-  src: url(assets/Roboto-Black.ttf);
+  --font-emphasize: "NexaHeavy", sans-serif;
+  --font-normal: "Nexa", sans-serif;
 }
 @font-face {
   font-family: "Nexa";
@@ -25,23 +18,21 @@
   src: url(assets/Nexa-Heavy.ttf);
 }
 body {
-  background-color: var(--color-background);
+  background-color: var(--color-background, #2a272b);
   margin: auto;
   display: flex;
   flex-direction: column;
   min-height: 100dvh;
-  font-family: "Nexa", sans-serif;
+  font-family: var(--font-normal, sans-serif);
 }
 
 header {
-  background-color: var(--color-primary);
+  background-color: var(--color-primary, #303d2b);
   margin: 0;
-  /* padding: 20% 10%; */
 }
 
 nav ul {
   list-style-type: none;
-  /* gap: 2rem; */
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -51,7 +42,7 @@ nav ul {
   margin: 0;
   li {
     padding-block: 0.25rem;
-    color: var(--color-primary-text);
+    color: var(--color-primary-text, #dae3e0);
   }
 }
 nav a {
@@ -84,34 +75,34 @@ main {
 
 h1 {
   text-align: center;
-  font-family: "NexaHeavy", sans-serif;
+  font-family: var(--font-emphasize, sans-serif);
   font-size: 4em;
-  color: var(--color-primary-text);
+  color: var(--color-primary-text, #dae3e0);
 }
 
 footer {
   display: flex;
   flex-direction: row;
   justify-content: center;
-  background-color: var(--color-primary);
+  background-color: var(--color-primary, #303d2b);
   gap: 2rem;
   margin: 40px 0px 0px;
   padding: 60px 0px 30px;
 }
 
 a {
-  color: var(--color-primary-text);
+  color: var(--color-primary-text, #dae3e0);
 }
 
 button,
 input[type="submit"] {
   padding: 1rem;
-  background-color: var(--color-secondary);
-  color: var(--color-secondary-text);
+  background-color: var(--color-secondary, #869e3c);
+  color: var(--color-secondary-text, #2a272b);
   border: none;
   border-radius: 0.5rem;
 }
 
 button:hover {
-  background-color: var(--color-tertiary);
+  background-color: var(--color-tertiary, #a3bc59);
 }
