@@ -105,7 +105,7 @@
             required
             minlength="2"
             maxlength="50"
-            pattern="[A-Za-z .'-]+"
+            pattern="^[A-Z][a-zA-Z .-']{2,49}$"
             placeholder="Your name"
           />
           <label for="email">Email</label>
@@ -125,7 +125,7 @@
             required
             minlength="2"
             maxlength="80"
-            pattern="[A-Za-z0-9 ,.'?!-]+"
+            pattern="[A-Za-z0-9 ,.'?!-@&]+"
             placeholder="Subject"
           />
           <label for="message">Message</label>
