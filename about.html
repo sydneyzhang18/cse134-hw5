@@ -14,13 +14,41 @@
         padding-inline-start: 0.5rem;
       }
       progress::-webkit-progress-value {
-        background-color: var(--color-secondary);
+        background-color: var(--color-attention);
         border-radius: 0.5rem 0 0 0.5rem;
       }
 
       progress::-webkit-progress-bar {
         background-color: var(--color-primary-text);
         border-radius: 0.5rem;
+      }
+
+      html::view-transition-old(main),
+      html::view-transition-new(main) {
+        animation-duration: 1000ms;
+        animation-fill-mode: both;
+      }
+      html::view-transition-old(main) {
+        animation-name: fade-out;
+      }
+      html::view-transition-new(main) {
+        animation-name: fade-in;
+      }
+      @keyframes fade-out {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
       }
     </style>
   </head>
@@ -36,7 +64,7 @@
         </ul>
       </nav>
     </header>
-    <main>
+    <main style="view-transition-name: main">
       <h1>About</h1>
       <article>
         <h2>Hello!</h2>
@@ -99,6 +127,7 @@
         ><img src="assets/mail.png" alt="Email"
       /></a>
     </footer>
+
     <script src="script.js"></script>
   </body>
 </html>

@@ -7,7 +7,6 @@
     <link rel="icon" href="assets/smile.ico" />
     <link rel="stylesheet" href="styles.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <style>
       main section {
         width: 100%;
@@ -47,6 +46,36 @@
           }
         }
       }
+      @view-transition {
+        navigation: auto;
+      }
+      html::view-transition-old(main),
+      html::view-transition-new(main) {
+        animation-duration: 1000ms;
+        animation-fill-mode: both;
+      }
+      html::view-transition-old(main) {
+        animation-name: fade-out;
+      }
+      html::view-transition-new(main) {
+        animation-name: fade-in;
+      }
+      @keyframes fade-out {
+        from {
+          opacity: 1;
+        }
+        to {
+          opacity: 0;
+        }
+      }
+      @keyframes fade-in {
+        from {
+          opacity: 0;
+        }
+        to {
+          opacity: 1;
+        }
+      }
     </style>
   </head>
   <body>
@@ -61,7 +90,7 @@
         </ul>
       </nav>
     </header>
-    <main>
+    <main style="view-transition-name: main">
       <section id="intro">
         <section>
           <h1>Sydney Zhang</h1>

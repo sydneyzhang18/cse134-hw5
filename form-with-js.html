@@ -76,10 +76,6 @@
         background: rgb(244, 212, 212);
       }
 
-      p {
-        color: var(--color-primary-text);
-      }
-
       output#errors {
         display: block;
         color: #d41;
@@ -102,133 +98,214 @@
         }
       }
 
-      #char_count.warning {
+      #information.warning {
         color: #d47a00;
       }
 
-      #char_count.error {
+      #information.error {
         color: #d41;
         font-weight: bold;
       }
+      textarea.warning {
+        border-color: #d47a00 ;
+      }
+
+      textarea.error {
+        border-color: #d41 ;
+        background-color: rgb(244, 212, 212);
+      }
     </style>
     <script>
-      const form = document.getElementById("contact_form");
-      const errorOutput = document.getElementById("errors");
-      const infoOutput = document.getElementById("information");
-      const charCount = document.getElementById("char_count");
-      const formErrorsField = document.getElementById("form_errors_field");
+      document.addEventListener("DOMContentLoaded", () => {
+        const textarea = document.getElementById("message");
+        const info = document.getElementById("information");
+        const errorOutput = document.getElementById("errors");
+        const formErrorsField = document.getElementById("form_errors_field");
+        const contactForm = document.getElementById("contact_form");
 
-      let form_errors = [];
+        const max = parseInt(textarea.getAttribute("maxlength"), 10);
 
-      // Patterns to enforce
-      const patterns = {
-        name: /^[A-Za-z .'-]+$/,
-        subject: /^[A-Za-z0-9 ,.'?!-]+$/,
-      };
+        // Character count update
+        function updateCount() {
+          const len = textarea.value.length;
+          const remaining = max - len;
 
-      // --- Show error messages ---
-      function showError(msg, fieldEl = null) {
-        errorOutput.textContent = msg;
-        errorOutput.style.opacity = 1;
+          info.textContent = `${remaining} characters remaining`;
+          info.classList.remove("warning", "error");
+          textarea.classList.remove("warning", "error");
 
-        if (fieldEl) {
-          fieldEl.classList.add("flash");
-          setTimeout(() => fieldEl.classList.remove("flash"), 200);
+          if (remaining <= 50 && remaining > 0) {
+            info.classList.add("warning");
+            textarea.classList.add("warning");
+          }
+
+          if (remaining <= 0) {
+            info.classList.add("error");
+            textarea.classList.add("error");
+
+            if (remaining < 0) {
+              textarea.value = textarea.value.substring(0, max);
+            }
+          }
         }
 
-        setTimeout(() => {
-          errorOutput.style.opacity = 0;
-        }, 1500);
-      }
+        textarea.addEventListener("input", updateCount);
+        updateCount();
 
-      // --- Add to form_errors ---
-      function logError(field, type, value) {
-        form_errors.push({
-          field,
-          type,
-          value,
-          timestamp: Date.now(),
-        });
-        formErrorsField.value = JSON.stringify(form_errors);
-      }
 
-      // --- Illegal character masking ---
-      function attachMasking(input) {
-        input.addEventListener("input", (e) => {
-          const field = e.target;
-          const name = field.name;
+        // Real-time validation
+        const fields = [
+          document.getElementById("name"),
+          document.getElementById("subject"),
+          document.getElementById("message")
+        ];
 
-          if (!patterns[name]) return; // only for name + subject
+        fields.forEach(field => {
+        // Patterns for checking individual characters in name
+        const allowedChars = /[a-zA-Z .'-\s]/; // general allowed characters
+        const firstCharPattern = /[A-Z]/; // only for name
 
-          const regex = patterns[name];
+        field.addEventListener("input", (e) => {
+          const value = field.value;
 
-          // If user typed something invalid:
-          if (!regex.test(field.value)) {
-            logError(name, "illegal-character", field.value);
+          // Newly typed character
+          const newChar = e.data && e.inputType === "insertText" ? e.data : null;
+          let newCharIsInvalid = false;
+          let validityMessage = "";
+          let errorMessage = "";
 
-            showError(`Illegal character typed in ${name}`, field);
+          if (newChar !== null) {
+            if (field.id === "name" && value.length === 1) {
+              // First character of name must be uppercase
+              newCharIsInvalid = !firstCharPattern.test(newChar);
+              validityMessage = "Name must start with an uppercase letter.";
+              errorMessage = "First character of name is not uppercase.";
+            } else {
+              // All other characters
+              newCharIsInvalid = !allowedChars.test(newChar);
+              validityMessage = "Your input contains characters that are not allowed.";
+              errorMessage = "You typed an illegal character.";
+            }
+          }
 
-            // Remove illegal characters:
-            field.value = field.value.replace(/[^A-Za-z0-9 ,.'?!-]/g, "");
+          if (newCharIsInvalid) {
+            field.classList.add("flash");
+            setTimeout(() => field.classList.remove("flash"), 200);
+
+            field.setCustomValidity(validityMessage);
+
+            errorOutput.textContent = errorMessage;
+            errorOutput.style.opacity = 1;
+            setTimeout(() => {
+              errorOutput.textContent = "";
+              errorOutput.style.opacity = 0;
+            }, 2000);
+
+            field.checkValidity();
+            field.reportValidity();
+          } else {
+            if (field.id === "name" && value.length > 0 && value[0] !== value[0].toUpperCase()) {
+              field.setCustomValidity("Name must start with an uppercase letter.");
+            } else if (value.length < parseInt(field.getAttribute("minlength") || "0")) {
+              field.setCustomValidity("Input is too short.");
+            } else {
+              field.setCustomValidity("");
+            }
           }
         });
-      }
-
-      // Apply masking on these fields:
-      attachMasking(document.getElementById("name"));
-      attachMasking(document.getElementById("subject"));
-
-      // --- Textarea character countdown ---
-      const messageField = document.getElementById("message");
-      messageField.addEventListener("input", () => {
-        const max = messageField.maxLength;
-        const remaining = max - messageField.value.length;
-
-        charCount.textContent = `${remaining} characters remaining`;
-        charCount.classList.remove("warning", "error");
-
-        if (remain <= 30 && remain > 0) {
-          charCount.classList.add("warning");
-        }
-
-        if (remain <= 0) {
-          charCount.classList.remove("warning");
-          charCount.classList.add("error");
-
-          logError("message", "max-length", messageField.value.length);
-          showError(
-            "You have reached the maximum message length.",
-            messageField
-          );
-        }
       });
 
-      // --- Constraint Validation API ---
-      form.addEventListener("submit", (e) => {
-        infoOutput.textContent = "";
-        errorOutput.textContent = "";
 
-        let valid = true;
 
-        [...form.elements].forEach((el) => {
-          if (!el.checkValidity()) {
-            valid = false;
+      let form_errors = [];
+      contactForm.addEventListener("submit", (e) => {
+          e.preventDefault();
 
-            logError(el.name, "validation-failed", el.value);
+          let hasErrors = false;
 
-            el.setCustomValidity("Please fix this field before submitting.");
-            showError(`Error in field: ${el.name}`, el);
+          let curr_errors = [];
+          console.log("form errors pre push: ", form_errors);
+          // Name checks
+          const name = fields[0].value.trim();
+          if (name.length < 3) {
+            curr_errors.push({field: "name", message: "Name is too short.", value: name});
+            fields[0].setCustomValidity("Name is too short.");
+            hasErrors = true;
+          } else if (!/^[A-Z]/.test(name)) {
+            curr_errors.push({field: "name", message: "Name must start with an uppercase letter.", value: name});
+            fields[0].setCustomValidity("Name must start with an uppercase letter.");
+            hasErrors = true;
+          } else if (!/^[A-Z][a-zA-Z .'-\s]*$/.test(name)) {
+            curr_errors.push({field: "name", message: "Name contains illegal characters.", value: name});
+            fields[0].setCustomValidity("Name contains illegal characters.");
+            hasErrors = true;
           } else {
-            el.setCustomValidity(""); // clear custom msg
+            fields[0].setCustomValidity("");
           }
+
+          // Subject checks
+          const subject = fields[1].value.trim();
+          if (subject.length < 2) {
+            curr_errors.push({field: "subject", message: "Subject is too short.", value: subject});
+            fields[1].setCustomValidity("Subject is too short.");
+            hasErrors = true;
+          } else if (!/^[A-Za-z0-9 ,.'?!-]+$/.test(subject)) {
+            curr_errors.push({field: "subject", message: "Subject contains illegal characters.", value: subject});
+            fields[1].setCustomValidity("Subject contains illegal characters.");
+            hasErrors = true;
+          } else {
+            fields[1].setCustomValidity("");
+          }
+
+          // Message checks
+          const message = fields[2].value.trim();
+          if (message.length < 5) {
+            curr_errors.push({field: "message", message: "Message is too short.", value: message});
+            fields[2].setCustomValidity("Message is too short.");
+            hasErrors = true;
+          } else if (!/^[A-Za-z0-9 ,.'?!-]+$/.test(message)) {
+            curr_errors.push({field: "message", message: "Message contains illegal characters.", value: message});
+            fields[2].setCustomValidity("Message contains illegal characters.");
+            hasErrors = true;
+          } else {
+            fields[2].setCustomValidity("");
+          }
+
+          // Email checks
+          const emailField = document.getElementById("email");
+          if (!emailField.checkValidity()) {
+            curr_errors.push({
+              field: "email",
+              message: emailField.validationMessage,
+              value: emailField.value
+            });
+            hasErrors = true;
+          }
+          form_errors = form_errors.concat(curr_errors);
+          formErrorsField.value = JSON.stringify(form_errors);
+          console.log("curr errors: ", curr_errors);
+          console.log("form errors post push: ", form_errors);
+
+          if (hasErrors) {
+
+            errorOutput.textContent = "Please correct the errors in the form before submitting.";
+            errorOutput.style.opacity = 1;
+
+            fields[2].reportValidity();
+            fields[1].reportValidity();
+            emailField.reportValidity();
+            fields[0].reportValidity();
+            setTimeout(() => {
+              errorOutput.textContent = "";
+              errorOutput.style.opacity = 0;
+            }, 3000);
+            return false;
+          }
+
+          // No errors
+          contactForm.submit();
         });
 
-        if (!valid) {
-          e.preventDefault(); // Stop form submission
-          return;
-        }
-
-        // Submit normally
       });
     </script>
   </head>
@@ -251,6 +328,7 @@
         action="https://www.httpbin.org/post"
         method="POST"
         id="contact_form"
+        novalidate
       >
         <fieldset>
           <legend>Send me an email!</legend>
@@ -260,9 +338,9 @@
             id="name"
             name="name"
             required
-            minlength="2"
+            minlength="3"
             maxlength="50"
-            pattern="[A-Za-z .'-]+"
+            pattern="^[A-Z][a-zA-Z .-']{2,}$"
             placeholder="Your name"
           />
           <label for="email">Email</label>
@@ -282,7 +360,7 @@
             required
             minlength="2"
             maxlength="80"
-            pattern="[A-Za-z0-9 ,.'?!-]+"
+            pattern="[A-Za-z0-9 ,.'?!-@&]+"
             placeholder="Subject"
           />
           <label for="message">Message</label>
@@ -295,9 +373,7 @@
             maxlength="600"
             placeholder="Type message..."
           ></textarea>
-          <p id="char_count" style="font-size: 0.75rem; margin-block-start: 0">
-            600 characters remaining
-          </p>
+
           <input type="submit" value="Send" />
           <input type="text" id="form_errors_field" name="form-errors" />
           <input
