@@ -12,7 +12,7 @@
   --font-emphasize: "NexaHeavy", sans-serif;
   --font-normal: "Nexa", sans-serif;
 }
-/* FORCE LIGHT MODE */
+/* Light mode */
 html.theme-light {
   --color-background: #dae3e0;
   --color-primary: #869e3c;
@@ -22,7 +22,7 @@ html.theme-light {
   --color-secondary-text: #dae3e0;
 }
 
-/* FORCE DARK MODE */
+/* Dark mode */
 html.theme-dark {
   --color-background: #2a272b;
   --color-primary: #303d2b;

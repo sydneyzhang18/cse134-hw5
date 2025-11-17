@@ -162,8 +162,9 @@
 
         fields.forEach(field => {
         // Patterns for checking individual characters in name
-        const allowedChars = /[a-zA-Z .'-\s]/; // general allowed characters
-        const firstCharPattern = /[A-Z]/; // only for name
+        const allowedNameChars = /[a-zA-Z .'-\s]/; // general allowed characters
+        const allowedSubjectChars = /[A-Za-z0-9 ,.'?!-@&]+/;
+        const firstNameCharPattern = /[A-Z]/; // only for name
 
         field.addEventListener("input", (e) => {
           const value = field.value;
@@ -177,13 +178,18 @@
           if (newChar !== null) {
             if (field.id === "name" && value.length === 1) {
               // First character of name must be uppercase
-              newCharIsInvalid = !firstCharPattern.test(newChar);
+              newCharIsInvalid = !firstNameCharPattern.test(newChar);
               validityMessage = "Name must start with an uppercase letter.";
               errorMessage = "First character of name is not uppercase.";
-            } else {
+            } else if (field.id === "name") {
               // All other characters
-              newCharIsInvalid = !allowedChars.test(newChar);
-              validityMessage = "Your input contains characters that are not allowed.";
+              newCharIsInvalid = !allowedNameChars.test(newChar);
+              validityMessage = "Your name input contains characters that are not allowed.";
+              errorMessage = "You typed an illegal character.";
+            } else if (field.id === "subject") {
+              // All other characters
+              newCharIsInvalid = !allowedSubjectChars.test(newChar);
+              validityMessage = "Your subject input contains characters that are not allowed.";
               errorMessage = "You typed an illegal character.";
             }
           }
@@ -302,7 +308,7 @@
             return false;
           }
 
-          // No errors
+          // No errors, actually submit
           contactForm.submit();
         });
 
@@ -375,7 +381,7 @@
           ></textarea>
 
           <input type="submit" value="Send" />
-          <input type="text" id="form_errors_field" name="form-errors" />
+          <input type="hidden" id="form_errors_field" name="form-errors" />
           <input
             type="text"
             id="possible_bot"
