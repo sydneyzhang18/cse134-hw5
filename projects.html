@@ -32,19 +32,13 @@
           gap: 2rem;
         }
       }
+      section {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 2rem;
+        gap: 1rem;
+      }
 
-      /* project-card {
-        background-color: var(--color-primary);
-        border-radius: 1rem;
-        padding: 2rem;
-
-        img {
-          width: 100%;
-        }
-        a {
-          text-decoration: none;
-        }
-      } */
       html::view-transition-old(main),
       html::view-transition-new(main) {
         animation-duration: 1000ms;
@@ -88,7 +82,10 @@
     </header>
     <main style="view-transition-name: main">
       <h1>Projects</h1>
-
+      <section>
+        <button id="load-local">Load Local</button>
+        <button id="load-remote">Load Remote</button>
+      </section>
       <projects-section id="projects-section"> </projects-section>
     </main>
     <footer>
@@ -104,5 +101,6 @@
     </footer>
     <script src="script.js"></script>
     <script src="project-card.js"></script>
+    <script src="project-data.js"></script>
   </body>
 </html>
